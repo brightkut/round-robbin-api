@@ -77,15 +77,17 @@ public class LoadBalanceService {
     }
 
     public void updateResponseTime(String instanceId, long responseTime) {
-        log.info("Update responseTime instance: {} with response time: {}", instanceId, responseTime * 1000);
+        log.info("Update responseTime instance: {} with response time: {}ms", instanceId, responseTime);
+
+        long respTimeSeconds = responseTime / 1000;
 
         serverInstanceMap.computeIfPresent(instanceId, (id, serverInstance) -> {
-            serverInstance.setResponseTime(responseTime);
+            serverInstance.setResponseTime(respTimeSeconds);
             return serverInstance;  // Return the updated instance
         });
 
         // Track slow server instances
-        trackSlowServerInstance(instanceId, responseTime);
+        trackSlowServerInstance(instanceId, respTimeSeconds);
     }
 
 

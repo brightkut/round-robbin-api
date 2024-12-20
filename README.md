@@ -11,7 +11,7 @@ Register instance: 8082 with this information: ...
 Register instance: 8083 with this information: ... 
 ```
 
-4. Use runner in `Postman` to call API with 6 requests and verify the message log in `routing-api` , It will display message in order 
+4. Use run collection (`happy-case-round-robbin-api.postman_collection`) in `Postman` to call API with 6 requests and verify the message log in `routing-api` , It will display message in order 
 
 ```  
 Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
@@ -40,7 +40,7 @@ Remove instance: 8083, lastHealthCheckTime: 2024-12-21T05:11:44.656329,  current
 Found 2 instances and start check health
 ```
 
-5. Use runner in `Postman` to call API with 6 requests and verify the message log in `routing-api` , It will display message in order like this
+5. Use run collection (`happy-case-round-robbin-api.postman_collection`) in `Postman` to call API with 6 requests and verify the message log in `routing-api` , It will display message in order like this
 but you will see the instance `8083` will be removed from this api list 
 
 ```  
@@ -50,4 +50,41 @@ Sending request to simple api host: http://localhost:8082 with payload ... -> re
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #4
 Sending request to simple api host: http://localhost:8082 with payload ... -> request number #5
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6 
+```
+
+### How to test with a case slow API response time
+
+1. You can start all application by follow `happy case` step first.
+2. Use run collection (`slow-api-case-round-robbin-api`) in `Postman` to call API with 9 requests
+3. In the request number #3 it is a slow request. When we call API with first 3 request it will forward request
+to 3 instance but since the request number #4 it will forward only 2 instance with round robbin because we will mark
+the instance that has slow response time as slow instance then it will display this message log
+
+```  
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #2
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3
+
+Instance: 8081 has slow response time -> log that mark this instance is slow
+
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #4
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #5
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #6
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #7
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #8
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #9
+```
+4. Next we will wait 10 seconds and use run collection (`happy-case-round-robbin-api.postman_collection`) to test again. 
+The expectation result should be the same as `happy case` since it has logic to recovery slow instance. In next 10 seconds after 
+the instance was marked as slow. we will remove it from slow instance list.
+
+```
+Recovery slow instance: 8081 , startSlowTime: 2024-12-21T06:04:40.820396, current time: 2024-12-21T06:05:35.275447 -> log message for recovery slow instance
+
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #2
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #4
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #5
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6
 ```
