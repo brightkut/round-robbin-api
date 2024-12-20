@@ -57,8 +57,8 @@ Sending request to simple api host: http://localhost:8081 with payload ... -> re
 1. You can start all application by follow `happy case` step first.
 2. Use run collection (`slow-api-case-round-robbin-api`) in `Postman` to call API with 9 requests
 3. In the request number #3 it is a slow request. When we call API with first 3 request it will forward request
-to 3 instance but since the request number #4 it will forward only 2 instance with round robbin because we will mark
-the instance that has slow response time as slow instance then it will display this message log
+to 3 instance and mark the instance that has slow response time (#3) as slow instance. For the request number #4 - #9 it will forward to 
+only 2 instance without slow instance  then it will display this message log
 
 ```  
 Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
