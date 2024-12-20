@@ -93,8 +93,29 @@ public class LoadBalanceServiceTest {
         });
     }
 
+    @Test
+    public void getNextAvailableInstanceAllSlowInstance_success() {
+        RegisterInstanceDTO req = new RegisterInstanceDTO("8081", "localhost", 8081);
+        loadBalanceService.registerInstance(req);
+        loadBalanceService.updateResponseTime(req.instanceId(), 10000);
+        RegisterInstanceDTO req2 = new RegisterInstanceDTO("8082", "localhost", 8082);
+        loadBalanceService.registerInstance(req2);
+        loadBalanceService.updateResponseTime(req2.instanceId(), 9000);
+        RegisterInstanceDTO req3 = new RegisterInstanceDTO("8083", "localhost", 8083);
+        loadBalanceService.registerInstance(req3);
+        loadBalanceService.updateResponseTime(req3.instanceId(), 8000);
+
+        ServerInstance actual = loadBalanceService.getNextAvailableInstance();
+
+        assertEquals("8083", actual.getInstanceId());
+        assertEquals("localhost", actual.getHostName());
+        assertEquals(8083, actual.getPort());
+        assertEquals(true, actual.getIsHealthy());
+        assertEquals(8, actual.getResponseTime());
+    }
+
     @ParameterizedTest
-    //@ValueSource(booleans = {true}) // use this when want to test recover
+//    @ValueSource(booleans = {true}) // use this when want to test recover
     @ValueSource(booleans = {false})
     public void getNextAvailableInstanceAllInstanceHealthyAndRecoverySlowInstance_success(boolean isRecovery) throws InterruptedException {
         RegisterInstanceDTO req = new RegisterInstanceDTO("8081", "localhost", 8081);
@@ -103,7 +124,7 @@ public class LoadBalanceServiceTest {
         loadBalanceService.registerInstance(req2);
         RegisterInstanceDTO req3 = new RegisterInstanceDTO("8083", "localhost", 8083);
         loadBalanceService.registerInstance(req3);
-        loadBalanceService.updateResponseTime(req3.instanceId(), 10);
+        loadBalanceService.updateResponseTime(req3.instanceId(), 10000);
 
         if(isRecovery) {
             Thread.sleep(10000);
@@ -123,7 +144,7 @@ public class LoadBalanceServiceTest {
         RegisterInstanceDTO req = new RegisterInstanceDTO("8081", "localhost", 8081);
         loadBalanceService.registerInstance(req);
 
-        loadBalanceService.updateResponseTime(req.instanceId(), 1);
+        loadBalanceService.updateResponseTime(req.instanceId(), 1000);
 
         List<ServerInstance> actual = loadBalanceService.getAllInstances();
 
@@ -140,7 +161,7 @@ public class LoadBalanceServiceTest {
         RegisterInstanceDTO req = new RegisterInstanceDTO("8081", "localhost", 8081);
         loadBalanceService.registerInstance(req);
 
-        loadBalanceService.updateResponseTime(req.instanceId(), 10);
+        loadBalanceService.updateResponseTime(req.instanceId(), 10000);
 
         List<ServerInstance> actual = loadBalanceService.getAllInstances();
 

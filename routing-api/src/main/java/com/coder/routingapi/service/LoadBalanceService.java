@@ -9,8 +9,10 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -64,6 +66,15 @@ public class LoadBalanceService {
 
     public ServerInstance getNextAvailableInstance() {
         recoverySlowInstances();
+
+        if(validateAllInstanceIsSlow()){
+            // Case all instance is slow
+            return serverInstanceMap.values().stream()
+                    .filter(ServerInstance::getIsHealthy)
+                    .min(Comparator.comparing(ServerInstance::getResponseTime))
+                    .orElseThrow(()->new RuntimeException("No healthy instance available"));
+
+        }
 
         List<ServerInstance> healthyInstances = serverInstanceMap.values().stream()
                     .filter(serverInstance -> serverInstance.getIsHealthy() && !slowServerInstanceMap.containsKey(serverInstance.getInstanceId()))
@@ -130,4 +141,7 @@ public class LoadBalanceService {
         }
     }
 
+    private boolean validateAllInstanceIsSlow(){
+        return serverInstanceMap.size() == slowServerInstanceMap.size() && !serverInstanceMap.isEmpty();
+    }
 }
