@@ -1,0 +1,315 @@
+{
+	"info": {
+		"_postman_id": "4886e829-3351-47ea-a4fa-5083817f8fc7",
+		"name": "slow-api-case-round-robbin-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6988244"
+	},
+	"item": [
+		{
+			"name": "API Request #1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Slow Request #3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings?respTime=5",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #5",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #6",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #7",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #8",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Request #9",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"game\": \"Mobile Legends\",\n    \"gamerID\": \"GYUTDTE\",\n    \"points\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/routings",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routings"
+					],
+					"query": [
+						{
+							"key": "respTime",
+							"value": "5",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
