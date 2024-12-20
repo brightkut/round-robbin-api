@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SimpleApiApp 8083" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <envs>
+      <env name="-Dserver.port" value="8083" />
+    </envs>
+    <module name="simple-api" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.coder.simpleapi.SimpleApiApplication" />
+    <option name="VM_PARAMETERS" value="-Dserver.port=8083" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

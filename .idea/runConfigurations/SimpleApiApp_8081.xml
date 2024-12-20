@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SimpleApiApp 8081" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="simple-api" />
+    <selectedOptions>
+      <option name="environmentVariables" />
+    </selectedOptions>
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.coder.simpleapi.SimpleApiApplication" />
+    <option name="VM_PARAMETERS" value="-Dserver.port=8081" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
