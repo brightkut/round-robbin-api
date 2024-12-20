@@ -53,7 +53,7 @@ public class LoadBalanceService {
             LocalDateTime lastHealthCheckTime = serverInstance.getLastHealthCheckTime();
             serverInstance.setLastHealthCheckTime(now);
 
-            log.info("Resend heartbeat instance: {} , lastHealthCheckTime: {} , new lastHealthCheckTime: {}", req.instanceId(), lastHealthCheckTime, now);
+//            log.info("Resend heartbeat instance: {} , lastHealthCheckTime: {} , new lastHealthCheckTime: {}", req.instanceId(), lastHealthCheckTime, now);
         }
         serverInstanceMap.put(req.instanceId(), serverInstance);
     }
@@ -77,7 +77,7 @@ public class LoadBalanceService {
     }
 
     public void updateResponseTime(String instanceId, long responseTime) {
-        log.info("Update responseTime instance: {} with response time: {}", instanceId, responseTime);
+        log.info("Update responseTime instance: {} with response time: {}", instanceId, responseTime * 1000);
 
         serverInstanceMap.computeIfPresent(instanceId, (id, serverInstance) -> {
             serverInstance.setResponseTime(responseTime);
@@ -90,7 +90,7 @@ public class LoadBalanceService {
 
 
     public void removeInstance(String instanceId) {
-        log.warn("Remove instance: {} at time: {} because it is not healthy", instanceId, LocalDateTime.now());
+        log.warn("Remove instance: {}, lastHealthCheckTime: {},  current time: {} because it is not healthy", instanceId, serverInstanceMap.get(instanceId).getLastHealthCheckTime(), LocalDateTime.now());
         serverInstanceMap.remove(instanceId);
         slowServerInstanceMap.remove(instanceId);
     }
