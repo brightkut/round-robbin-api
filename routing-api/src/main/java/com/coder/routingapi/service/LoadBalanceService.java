@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -50,10 +49,11 @@ public class LoadBalanceService {
         if (!serverInstanceMap.containsKey(req.instanceId())) {
             log.info("Register instance: {} with this information: {} at time: {}", req.instanceId(), serverInstance, now);
         } else {
-            log.info("Resend heartbeat instance: {} at time: {}", req.instanceId(), now);
             serverInstance = serverInstanceMap.get(req.instanceId());
+            LocalDateTime lastHealthCheckTime = serverInstance.getLastHealthCheckTime();
             serverInstance.setLastHealthCheckTime(now);
-            log.info("Resend heartbeat sever instance: {} ", serverInstance);
+
+            log.info("Resend heartbeat instance: {} , lastHealthCheckTime: {} , new lastHealthCheckTime: {}", req.instanceId(), lastHealthCheckTime, now);
         }
         serverInstanceMap.put(req.instanceId(), serverInstance);
     }
@@ -63,7 +63,7 @@ public class LoadBalanceService {
     }
 
     public ServerInstance getNextAvailableInstance() {
-        recoverSlowInstances();
+        recoverySlowInstances();
 
         List<ServerInstance> healthyInstances = serverInstanceMap.values().stream()
                     .filter(serverInstance -> serverInstance.getIsHealthy() && !slowServerInstanceMap.containsKey(serverInstance.getInstanceId()))
@@ -92,6 +92,7 @@ public class LoadBalanceService {
     public void removeInstance(String instanceId) {
         log.warn("Remove instance: {} at time: {} because it is not healthy", instanceId, LocalDateTime.now());
         serverInstanceMap.remove(instanceId);
+        slowServerInstanceMap.remove(instanceId);
     }
 
     private ServerInstance getHealthyInstanceRoundRobin(List<ServerInstance> healthyInstances) {
@@ -109,14 +110,14 @@ public class LoadBalanceService {
         }
     }
 
-    private void recoverSlowInstances() {
+    private void recoverySlowInstances() {
         LocalDateTime now = LocalDateTime.now();
 
         for (Map.Entry<String, LocalDateTime> entry : slowServerInstanceMap.entrySet()) {
             boolean isPastThreshold = now.isAfter(entry.getValue().plusSeconds(SLOW_INSTANCE_THRESHOLD_TIME));
             if (isPastThreshold) {
                 String instanceId = entry.getKey();
-                log.info("Recover slow instance: {} at time: {}", instanceId, now);
+                log.info("Recovery slow instance: {} , startSlowTime: {}, current time: {}", instanceId, entry.getValue(), now);
                 // Check if the instanceId exists in serverInstanceMap and reset response time
                 if (serverInstanceMap.containsKey(instanceId)) {
                     serverInstanceMap.get(instanceId).setResponseTime(0);

@@ -24,11 +24,12 @@ public class HealthCheckService {
 
     @Scheduled(fixedRateString = "${schedule.fixRate}", initialDelayString = "${schedule.initialDelay}")
     public void checkAllInstanceHealth(){
-        log.info("Trigger check all instance health");
+//        log.info("Trigger check all instance health");
         List<ServerInstance> serverInstances = loadBalancerService.getAllInstances();
 
+        log.info("Found {} instances and start check health", serverInstances.size());
+
         if(!CollectionUtils.isEmpty(serverInstances)){
-            log.info("Found {} instances and start check health", serverInstances.size());
             LocalDateTime now = LocalDateTime.now();
 
             serverInstances.stream()

@@ -58,7 +58,7 @@ public class HealthCheckService {
             );
 
             // Log the response
-            log.info("Response from routing API endpoint /load-balances/register: {}", res.getBody());
+//            log.info("Response from routing API endpoint /load-balances/register: {}", res.getBody());
         } catch (Exception e) {
             // Handle errors
             log.error("Error occurred while calling routing API endpoint /load-balances/register: {}", e.getMessage(), e);

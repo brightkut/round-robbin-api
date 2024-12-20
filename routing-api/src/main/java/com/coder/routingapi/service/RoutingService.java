@@ -61,13 +61,14 @@ public class RoutingService {
             // Calculate response time
             long responseTime = (endTime - startTime) / 1000;
 
-            log.info("Response time when call simple api: {} seconds for instance id : {}", responseTime, nextAvailableInstance.getInstanceId());
+//            log.info("Response time when call simple api: {} seconds for instance id : {}", responseTime, nextAvailableInstance.getInstanceId());
+
+            // Log the response
+            if(res.getBody() != null)  log.info("Response from simple API endpoint /simples: {}", res.getBody());
 
             // Update response time from calling api
             loadBalanceService.updateResponseTime(nextAvailableInstance.getInstanceId(), responseTime);
 
-            // Log the response
-            if(res.getBody() != null)  log.info("Response from simple API endpoint /simples: {}", res.getBody());
         } catch (Exception e) {
             // Handle errors
             log.error("Error occurred while calling simple API endpoint /simples: {}", e.getMessage(), e);
