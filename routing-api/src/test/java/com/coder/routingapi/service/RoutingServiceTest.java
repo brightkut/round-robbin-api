@@ -64,7 +64,7 @@ public class RoutingServiceTest {
 
         doNothing().when(loadBalanceService).updateResponseTime(anyString(), anyLong());
 
-        Map<String, Object> actual = routingService.sendReqJson(req);
+        Map<String, Object> actual = routingService.sendReqJson(req, null);
 
         assertEquals("Mobile Legends", actual.get("game"));
         assertEquals("GYUTDTE", actual.get("gamerID"));

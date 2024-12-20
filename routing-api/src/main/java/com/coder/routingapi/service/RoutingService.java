@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class RoutingService {
         this.loadBalanceService = loadBalanceService;
     }
 
-    public Map<String, Object> sendReqJson(Map<String, Object> req) {
+    public Map<String, Object> sendReqJson(Map<String, Object> req, String respTime) {
 
         ServerInstance nextAvailableInstance = loadBalanceService.getNextAvailableInstance();
 
@@ -45,11 +46,15 @@ public class RoutingService {
                     nextAvailableInstance.getPort()
             );
 
+            String url = UriComponentsBuilder.fromHttpUrl(simpleApiHost + "/simples")
+                    .queryParam("respTime", respTime)
+                    .toUriString();
+
             log.info("Sending request to simple api host: {} with payload: {}" ,simpleApiHost, req);
 
             // Call simple api service
              res = restTemplate.exchange(
-                    simpleApiHost + "/simples",
+                    url,
                     HttpMethod.POST,
                     entity,
                     new ParameterizedTypeReference<Map<String, Object>>() {}

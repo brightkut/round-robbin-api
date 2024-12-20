@@ -48,7 +48,7 @@ public class RoutingControllerTest {
         req.put("gamerID", "GYUTDTE");
         req.put("points", 20);
 
-        doReturn(req).when(routingService).sendReqJson(any());
+        doReturn(req).when(routingService).sendReqJson(any(), any());
 
         mockMvc.perform(post(ROUTING_API_ENDPOINT)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -60,6 +60,6 @@ public class RoutingControllerTest {
                 .andExpect(jsonPath("$.points").value(20))
                 .andDo(print());
 
-        verify(routingService, times(1)).sendReqJson(any());
+        verify(routingService, times(1)).sendReqJson(any(), any());
     }
 }
