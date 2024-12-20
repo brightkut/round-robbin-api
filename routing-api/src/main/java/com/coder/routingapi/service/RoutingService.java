@@ -64,7 +64,7 @@ public class RoutingService {
 //            log.info("Response time when call simple api: {} seconds for instance id : {}", responseTime, nextAvailableInstance.getInstanceId());
 
             // Log the response
-            if(res.getBody() != null)  log.info("Response from simple API endpoint /simples: {}", res.getBody());
+//            if(res.getBody() != null)  log.info("Response from simple API endpoint /simples: {}", res.getBody());
 
             // Update response time from calling api
             loadBalanceService.updateResponseTime(nextAvailableInstance.getInstanceId(), responseTime);

@@ -16,7 +16,6 @@ public class SimpleController {
 
         //TODO Uncomment for set slow response time
 //        Thread.sleep(6000);
-
         return req;
     }
 }
