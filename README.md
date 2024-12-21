@@ -1,5 +1,7 @@
 # Round Robin API
 
+
+## Case1
 ### How to test with a happy case (round robbin)
 1. Start Application `routing-api`(as loadbalancer) default it run on port `8080` 
 2. Start Application `simple-api` with 3 instance on port `8081`, `8082` and `8083`
@@ -22,6 +24,7 @@ Sending request to simple api host: http://localhost:8083 with payload ... -> re
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6 
 ```
 
+## Case2
 ### How to test with a case down one instance
 
 1. You can follow `happy case` first. Next kill one of `simple-api` in this case I will kill an application that run on port `8083`
@@ -52,6 +55,7 @@ Sending request to simple api host: http://localhost:8082 with payload ... -> re
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6 
 ```
 
+## Case3
 ### How to test with a case slow API response time only 1 instance from 3 instances
 
 1. You can start all application by follow `happy case` step first.
@@ -89,6 +93,7 @@ Sending request to simple api host: http://localhost:8083 with payload ... -> re
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6
 ```
 
+## Case4
 ### How to test with a case slow API response time all instance
 
 1. You can start all application by follow `happy case` step first.
