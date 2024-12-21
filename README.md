@@ -67,7 +67,7 @@ only 2 instance without slow instance  then it will display this message log
 ```  
 Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
 Sending request to simple api host: http://localhost:8083 with payload ... -> request number #2
-Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3 (slow response time)
 
 Instance: 8081 has slow response time -> log that mark this instance is slow
 
