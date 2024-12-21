@@ -14,8 +14,6 @@ public class SimpleController {
 
     @PostMapping
     Map<String, Object> sendBackJson(@RequestBody Map<String, Object> req , @RequestParam(defaultValue ="0") String respTime) throws InterruptedException {
-
-        //TODO Uncomment for set slow response time
         Thread.sleep(Long.parseLong(respTime) * 1000);
         return req;
     }
