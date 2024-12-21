@@ -38,7 +38,8 @@ public class HealthCheckService {
     public void sendHealthCheck() throws UnknownHostException {
         RegisterInstanceDTO req = new RegisterInstanceDTO(
                 Integer.toString(port),
-                InetAddress.getLocalHost().getCanonicalHostName(),
+//                InetAddress.getLocalHost().getCanonicalHostName(),
+                "localhost",
                 port
         );
 
