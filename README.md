@@ -52,10 +52,10 @@ Sending request to simple api host: http://localhost:8082 with payload ... -> re
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6 
 ```
 
-### How to test with a case slow API response time
+### How to test with a case slow API response time only 1 instance from 3 instances
 
 1. You can start all application by follow `happy case` step first.
-2. Use run collection (`slow-api-case-round-robbin-api`) in `Postman` to call API with 9 requests
+2. Use run collection (`slow-api-case-round-robbin-api.postman_collection`) in `Postman` to call API with 9 requests
 3. In the request number #3 it is a slow request. When we call API with first 3 request it will forward request
 to 3 instance and mark the instance that has slow response time (#3) as slow instance. For the request number #4 - #9 it will forward to 
 only 2 instance without slow instance  then it will display this message log
@@ -85,6 +85,55 @@ Sending request to simple api host: http://localhost:8082 with payload ... -> re
 Sending request to simple api host: http://localhost:8083 with payload ... -> request number #2
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3
 Sending request to simple api host: http://localhost:8082 with payload ... -> request number #4
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #5
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6
+```
+
+### How to test with a case slow API response time all instance
+
+1. You can start all application by follow `happy case` step first.
+2. Update value `SLOW_INSTANCE_RECOVERY_THRESHOLD_TIME` in `Constant` to `20` to ensure all instance will not be recovery before the all request done 
+3. Use run collection (`all-instance-slow-api-case-round-robbin-api.postman_collection`) in `Postman` to call API with 9 requests
+4. For the request number #1 to #3 all is slow request, it demonstrates all instance has slow response time for calling api then it will display this log
+
+```
+Sending request to simple api host: http://localhost:8082 with payload ... -> request number #1
+Instance: 8082 has slow response time, respTime: 7s
+
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #2
+Instance: 8081 has slow response time, respTime: 6s
+
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #3
+Instance: 8083 has slow response time, respTime: 5s
+
+```
+
+4. For the response time of each instance will be 7s, 6s and 5s with request number #1, #2 and #3.   
+When all instance is slow instance, the logic will prioritize the next available instance from the minimum response time
+so the request number #4 to #9 it will forward to `8083` (5 seconds). It will display this log 
+
+```
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #4
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #5
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #6
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #7
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #8
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #9
+```
+
+5. Next we will wait 20 seconds to ensure all instance is recovery and run collection (`happy-case-round-robbin-api.postman_collection`) then 
+it will forward the request using normal logic of round robbin and display this log
+
+```
+Recovery slow instance: 8082 , startSlowTime: 2024-12-21T07:35:38.503738, current time: 2024-12-21T07:36:29.013675
+Recovery slow instance: 8083 , startSlowTime: 2024-12-21T07:35:49.712889, current time: 2024-12-21T07:36:29.013675
+Recovery slow instance: 8081 , startSlowTime: 2024-12-21T07:35:44.610220, current time: 2024-12-21T07:36:29.013675
+
+
+Sending request to simple api host: http://localhost:8082 with payload:... -> request number #1
+Sending request to simple api host: http://localhost:8083 with payload ... -> request number #2
+Sending request to simple api host: http://localhost:8081 with payload ... -> request number #3
+Sending request to simple api host: http://localhost:8082 with payload:... -> request number #4
 Sending request to simple api host: http://localhost:8083 with payload ... -> request number #5
 Sending request to simple api host: http://localhost:8081 with payload ... -> request number #6
 ```

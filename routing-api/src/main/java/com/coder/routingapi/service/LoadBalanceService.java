@@ -12,13 +12,12 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.coder.routingapi.constant.Constant.MAX_RES_TIME_THRESHOLD;
-import static com.coder.routingapi.constant.Constant.SLOW_INSTANCE_THRESHOLD_TIME;
+import static com.coder.routingapi.constant.Constant.SLOW_INSTANCE_RECOVERY_THRESHOLD_TIME;
 
 
 @Service
@@ -116,7 +115,7 @@ public class LoadBalanceService {
 
     private void trackSlowServerInstance(String instanceId, long responseTime) {
         if (responseTime >=MAX_RES_TIME_THRESHOLD) {
-            log.info("Instance: {} has slow response time", instanceId);
+            log.info("Instance: {} has slow response time, respTime: {}s", instanceId, responseTime);
 
             // use putIfAbsent prevent race condition
             slowServerInstanceMap.putIfAbsent(instanceId, LocalDateTime.now());
@@ -127,7 +126,7 @@ public class LoadBalanceService {
         LocalDateTime now = LocalDateTime.now();
 
         for (Map.Entry<String, LocalDateTime> entry : slowServerInstanceMap.entrySet()) {
-            boolean isPastThreshold = now.isAfter(entry.getValue().plusSeconds(SLOW_INSTANCE_THRESHOLD_TIME));
+            boolean isPastThreshold = now.isAfter(entry.getValue().plusSeconds(SLOW_INSTANCE_RECOVERY_THRESHOLD_TIME));
             if (isPastThreshold) {
                 String instanceId = entry.getKey();
                 log.info("Recovery slow instance: {} , startSlowTime: {}, current time: {}", instanceId, entry.getValue(), now);
